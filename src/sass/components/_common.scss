@@ -1,0 +1,22 @@
+
+img {
+    display: block;
+    max-width: 100%;
+    height: auto;
+  }
+
+
+.js-display {
+  display: none;
+}
+
+.to-top-btn {
+  position: fixed;
+  z-index: 100;
+  right: 20px;
+  bottom: 20px;
+}
+
+// b {
+//     margin-left:10px;
+// }
