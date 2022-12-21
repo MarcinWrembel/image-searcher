@@ -1,6 +1,6 @@
 HTML:
 
-https: marcinwrembel.github.io/image-searcher/
+https://marcinwrembel.github.io/image-searcher/
 
 DESCRIPTION:
 
