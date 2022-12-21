@@ -5,13 +5,14 @@ import 'simplelightbox/dist/simple-lightbox.min.css';
 import { fetchImages } from './js/fetch';
 import debounce from 'lodash.debounce';
 
-const loadMoreBtn = document.querySelector('.load-more');
+const loadMoreBtn = document.querySelector('.btn--load-more');
 const searchForm = document.querySelector('#search-form');
 const gallery = document.querySelector('.gallery');
-const moveUpBtn = document.querySelector('.to-top-btn');
+const moveUpBtn = document.querySelector('.btn--on-top');
 
 export const dataInput = document.querySelector('[name="searchQuery"]');
 export let page = 1;
+let pagesNo = 1;
 
 //create lightBox
 let lightBox = new SimpleLightbox('.gallery a', {
@@ -24,6 +25,7 @@ function loadImages() {
     let imagesList = e.data.hits;
 
     let totalImg = e.data.totalHits;
+    pagesNo = Math.ceil(totalImg / 40);
 
     const shorterImageList = imagesList.reduce((acc, val) => {
       //destructure of main promise result
@@ -70,7 +72,7 @@ function loadImages() {
     loadMoreBtn.classList.toggle('js-display');
 
     // console.log(
-    //   `hits: ${totalHits} , loaded images: ${gallery.childElementCount}`
+    //   `hits: ${totalImg} , loaded images: ${gallery.childElementCount}`
     // );
   });
 }
@@ -88,7 +90,7 @@ function createImageCard(singleImage) {
   imageWrapper.setAttribute('class', 'photo-card');
 
   let imageCard = document.createElement('img');
-  imageCard.classList.add('photo-card__img' );
+  imageCard.classList.add('photo-card__img');
   imageCard.setAttribute('src', singleImage.webformatURL);
   imageCard.setAttribute('alt', singleImage.tags);
   imageCard.setAttribute('loading', 'lazy');
@@ -98,7 +100,6 @@ function createImageCard(singleImage) {
   imageLink.classList.add('photo-card__link');
   imageLink.setAttribute('href', singleImage.largeImageURL);
 
-
   let imageInfo = document.createElement('div');
   imageInfo.setAttribute('class', 'photo-card__info');
 
@@ -106,29 +107,29 @@ function createImageCard(singleImage) {
   let imageLikes = document.createElement('p');
   let imageLikesDesc = document.createElement('span');
   imageLikes.setAttribute('class', 'photo-card__info-item');
-  imageLikes.textContent = singleImage.likes;
-  imageLikesDesc.setAttribute('class','photo-card__info-heading');
+  imageLikes.textContent = singleImage.likes.toLocaleString();
+  imageLikesDesc.setAttribute('class', 'photo-card__info-heading');
   imageLikesDesc.textContent = 'Likes';
 
   let imageViews = document.createElement('p');
   let imageViewsDesc = document.createElement('span');
   imageViews.setAttribute('class', 'photo-card__info-item');
-  imageViews.textContent = singleImage.views;
-  imageViewsDesc.setAttribute('class','photo-card__info-heading');
+  imageViews.textContent = singleImage.views.toLocaleString();
+  imageViewsDesc.setAttribute('class', 'photo-card__info-heading');
   imageViewsDesc.textContent = 'Views';
 
   let imageComments = document.createElement('p');
   let imageCommentsDesc = document.createElement('span');
   imageComments.setAttribute('class', 'photo-card__info-item');
-  imageComments.textContent = singleImage.comments;
-  imageCommentsDesc.setAttribute('class','photo-card__info-heading');
+  imageComments.textContent = singleImage.comments.toLocaleString();
+  imageCommentsDesc.setAttribute('class', 'photo-card__info-heading');
   imageCommentsDesc.textContent = 'Comments';
 
   let imageDownloads = document.createElement('p');
   let imageDownloadsDesc = document.createElement('span');
   imageDownloads.setAttribute('class', 'photo-card__info-item');
-  imageDownloads.textContent = singleImage.downloads;
-  imageDownloadsDesc.setAttribute('class','photo-card__info-heading');
+  imageDownloads.textContent = singleImage.downloads.toLocaleString();
+  imageDownloadsDesc.setAttribute('class', 'photo-card__info-heading');
   imageDownloadsDesc.textContent = 'Downloads';
 
   //add elements to HTML
@@ -156,15 +157,16 @@ function loadMore() {
   loadImages();
 }
 
-//window.scrollY - value of scrolled page
-//document.documentElement.offsetHeight -height of whole page
-//window.innerHeight - browser window height
-
-//percentage of scrolling: window.scrollY/(document.documentElement.offsetHeight-window.innerHeight)*100
-
 //Loading images on form submit
 searchForm.addEventListener('submit', event => {
   event.preventDefault();
+
+  if (dataInput.value.trim() === '') {
+    Notiflix.Notify.info('Please key in any phrase/words into searchnig box');
+    return;
+  }
+
+  gallery.replaceChildren();
   loadImages();
 });
 
@@ -179,6 +181,12 @@ const moveOnTop = e => {
   });
 };
 
+//window.scrollY - value of scrolled page
+//document.documentElement.offsetHeight -height of whole page
+//window.innerHeight - browser window height
+
+//percentage of scrolling: window.scrollY/(document.documentElement.offsetHeight-window.innerHeight)*100
+
 //move on top when clicked
 moveUpBtn.addEventListener('click', moveOnTop);
 
@@ -191,6 +199,18 @@ document.addEventListener(
       moveUpBtn.classList.add('js-display');
     } else {
       moveUpBtn.classList.remove('js-display');
+    }
+
+    //create continuous images loading during scrolling to last elements. Can replace btn--load-more if necessary
+
+    const browserHight = window.innerHeight;
+    let loadedHeight = document.documentElement.offsetHeight;
+
+    if (
+      Math.floor(loadedHeight - positionY) === Math.floor(browserHight) &&
+      pagesNo !== page
+    ) {
+      loadMore();
     }
   }, 300)
 );

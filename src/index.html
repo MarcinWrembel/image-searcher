@@ -4,24 +4,35 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Mountains+of+Christmas:wght@700&display=swap" rel="stylesheet">
+  <script src="https://kit.fontawesome.com/56dc5aa199.js" crossorigin="anonymous"></script>
+
   <title>Images searcher</title>
+
   <link rel="stylesheet" href="./sass/index.scss" />
-  <!-- <link rel="stylesheet" href="main.css" /> -->
 </head>
 
 <body>
 
+  <h1>Image searcher based on Pixabay API</h1>
+
+  <img class="image" src="./images/snow-2620_512.gif" alt="winter and snowing weather"
+    title="GIF animation taken from Pixabay - user: Honey Sahota">
+
   <form class="search-form" id="search-form">
-    <input type="text" name="searchQuery" autocomplete="off" placeholder="Search images..." />
-    <button type="submit">Search</button>
+    <input class="search-form__input" type="text" name="searchQuery" autocomplete="off"
+      placeholder="Search images..." />
+    <button class="btn btn--search" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
   </form>
 
   <div class="gallery">
   </div>
-  <button type="button" class="load-more js-display">Load more</button>
-  <button type="button" class="to-top-btn js-display">UP</button>
+  <button type="button" class="btn btn--load-more js-display">Load more</button>
+  <button type="button" class=" btn btn--on-top js-display"> <i class="fa-solid fa-jet-fighter-up"></i>On top</button>
 
-  <script src="./index.js" type="module" ></script>
+  <script src="./index.js" type="module"></script>
 
 </body>
 

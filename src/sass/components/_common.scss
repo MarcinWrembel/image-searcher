@@ -1,22 +1,23 @@
+body {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  align-items: center;
+  background-color: RGBA(0, 173, 255, 0.11);
+}
 
-img {
-    display: block;
-    max-width: 100%;
-    height: auto;
-  }
+h1 {
+  font-family: 'Mountains of Christmas', cursive;
+  color: grey;
+}
 
+.image {
+  max-width: 250px;
+  max-height: 150px;
+  margin: 0 0 20px 0;
+}
 
 .js-display {
   display: none;
 }
-
-.to-top-btn {
-  position: fixed;
-  z-index: 100;
-  right: 20px;
-  bottom: 20px;
-}
-
-// b {
-//     margin-left:10px;
-// }
