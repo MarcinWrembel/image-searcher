@@ -1,9 +1,9 @@
-# GoIT Fullstack Dev Course
+#### GoIT Fullstack Dev Course
 
 ## Web page:
 https://marcinwrembel.github.io/image-searcher/
 
-### Info
+### Info:
 
 This project has been performed on Pixabay API as a homework result of Fullstack Developer Course.
 Client can search images basing on written words. Searching starts using "Enter" key or by magnifier img click'ing. 
